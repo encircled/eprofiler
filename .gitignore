@@ -1,0 +1,13 @@
+/bin/
+/build/
+
+/vlc/
+
+.settings/
+target/
+.idea/
+
+*.jar
+*.log
+.project
+*.iml
