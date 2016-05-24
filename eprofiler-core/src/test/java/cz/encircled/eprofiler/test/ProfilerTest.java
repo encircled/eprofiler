@@ -10,7 +10,11 @@ public class ProfilerTest {
 
     @Test
     public void test() {
-        Profiler.methodStart();
+        try {
+            Profiler.methodStart();
+        } finally {
+            System.out.println("");
+        }
     }
 
 }
