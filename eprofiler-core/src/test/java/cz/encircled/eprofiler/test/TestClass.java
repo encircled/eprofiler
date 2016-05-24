@@ -9,6 +9,11 @@ public class TestClass {
 
     public void someMethod() {
         System.out.println("SomeMethod");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         anotherMethod();
     }
 

@@ -21,7 +21,8 @@ public class ClassAdapter extends ClassVisitor {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature,
                 exceptions);
         if (mv != null && !name.equals("<init>")) {
-            mv = new MethodAdapter(owner, mv, access, name, desc);
+            mv = new ProfilerMethodAdapter2(Opcodes.ASM5, mv);
+//            mv = new ProfilerMethodAdapter(owner, mv, access, name, desc);
         }
         return mv;
     }

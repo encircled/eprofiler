@@ -38,8 +38,9 @@ public class DefaultMethodState implements MethodState {
     }
 
     @Override
-    public void addNested(MethodState state) {
+    public MethodState addNested(MethodState state) {
         children.add(state);
+        return state;
     }
 
 }

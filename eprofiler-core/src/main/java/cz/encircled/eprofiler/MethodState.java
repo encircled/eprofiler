@@ -13,6 +13,6 @@ public interface MethodState {
 
     boolean hasParent();
 
-    void addNested(MethodState state);
+    MethodState addNested(MethodState state);
 
 }

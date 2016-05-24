@@ -7,17 +7,22 @@ import org.objectweb.asm.commons.AdviceAdapter;
 /**
  * @author Vlad on 23-May-16.
  */
-public class MethodAdapter extends AdviceAdapter {
+public class ProfilerMethodAdapter extends AdviceAdapter {
 
     final String methodName;
 
     final String owner;
 
-    protected MethodAdapter(String owner, MethodVisitor mv, int access, String name, String desc) {
+    protected ProfilerMethodAdapter(String owner, MethodVisitor mv, int access, String name, String desc) {
         super(ASM5, mv, access, name, desc);
         this.methodName = name;
         this.owner = owner;
         Agent.getWriter().info("Method adapter for " + methodName + " created.");
+    }
+
+    @Override
+    public void visitCode() {
+        mv.visitCode();
     }
 
     @Override
@@ -30,12 +35,7 @@ public class MethodAdapter extends AdviceAdapter {
     @Override
     protected void onMethodExit(int opcode) {
         mv.visitVarInsn(ALOAD, 1);
-        mv.visitMethodInsn(INVOKEINTERFACE, "cz/encircled/eprofiler/MethodState", "end", "()V", true);
-    }
-
-    @Override
-    public void visitMaxs(int maxStack, int maxLocals) {
-        super.visitMaxs(maxStack + 1, maxLocals);
+        mv.visitMethodInsn(INVOKEINTERFACE, "cz/encircled/eprofiler/DefaultMethodState", "end", "()V", true);
     }
 
 }
