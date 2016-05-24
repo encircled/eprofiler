@@ -1,8 +1,8 @@
 package cz.encircled.eprofiler.test;
 
-import cz.encircled.eprofiler.AsmClassTransformer;
-
 import java.lang.instrument.IllegalClassFormatException;
+
+import cz.encircled.eprofiler.asm.AsmClassTransformer;
 
 /**
  * @author Vlad on 23-May-16.
