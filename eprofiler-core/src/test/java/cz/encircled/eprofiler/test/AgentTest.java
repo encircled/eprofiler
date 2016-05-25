@@ -1,10 +1,11 @@
 package cz.encircled.eprofiler.test;
 
-import java.lang.management.ManagementFactory;
-
 import com.sun.tools.attach.VirtualMachine;
+import cz.encircled.eprofiler.test.classes.TestClass;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.management.ManagementFactory;
 
 /**
  * @author Kisel on 24.05.2016.

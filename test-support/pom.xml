@@ -19,7 +19,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cz.encircled.eprofiler.test.TestClass</mainClass>
+                            <mainClass>cz.encircled.eprofiler.test.classes.TestClass</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

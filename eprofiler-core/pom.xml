@@ -53,8 +53,8 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>cz.encircled.eprofiler.ProfilerAgent</Premain-Class>
-                            <Agent-Class>cz.encircled.eprofiler.ProfilerAgent</Agent-Class>
+                            <Premain-Class>cz.encircled.eprofiler.javaagent.ProfilerAgent</Premain-Class>
+                            <Agent-Class>cz.encircled.eprofiler.javaagent.ProfilerAgent</Agent-Class>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                     </archive>

@@ -19,7 +19,7 @@ public class ClassAdapter extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if (mv != null && !name.equals("<init>")) {
+        if (mv != null) {
             mv = new ProfilerMethodAdapter(mv, access, name, desc);
         }
         return mv;

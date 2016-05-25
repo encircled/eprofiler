@@ -1,5 +1,7 @@
 package cz.encircled.eprofiler;
 
+import cz.encircled.eprofiler.core.ProfilerCore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class DefaultMethodState implements MethodState {
                 // add merge
             }
         } else {
-            ProfilerAgent.getWriter().info(id + ":" + formatStackTrace(Thread.currentThread().getStackTrace()[2]) + ":" + totalTime);
+            ProfilerCore.output().info(id + ":" + formatStackTrace(Thread.currentThread().getStackTrace()[2]) + ":" + totalTime);
         }
     }
 

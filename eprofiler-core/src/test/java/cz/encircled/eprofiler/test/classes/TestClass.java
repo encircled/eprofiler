@@ -1,4 +1,4 @@
-package cz.encircled.eprofiler.test;
+package cz.encircled.eprofiler.test.classes;
 
 /**
  * @author Vlad on 23-May-16.
