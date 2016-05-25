@@ -30,6 +30,11 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.openhft</groupId>
+            <artifactId>chronicle-queue</artifactId>
+            <version>4.4.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -39,8 +44,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -48,8 +53,8 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>cz.encircled.eprofiler.Agent</Premain-Class>
-                            <Agent-Class>cz.encircled.eprofiler.Agent</Agent-Class>
+                            <Premain-Class>cz.encircled.eprofiler.ProfilerAgent</Premain-Class>
+                            <Agent-Class>cz.encircled.eprofiler.ProfilerAgent</Agent-Class>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                     </archive>

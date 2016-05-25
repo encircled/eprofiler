@@ -1,7 +1,10 @@
 package cz.encircled.eprofiler.asm;
 
-import cz.encircled.eprofiler.Agent;
+import cz.encircled.eprofiler.MethodState;
+import cz.encircled.eprofiler.Util;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
 
 /**
@@ -9,33 +12,24 @@ import org.objectweb.asm.commons.AdviceAdapter;
  */
 public class ProfilerMethodAdapter extends AdviceAdapter {
 
-    final String methodName;
+    private int index;
 
-    final String owner;
-
-    protected ProfilerMethodAdapter(String owner, MethodVisitor mv, int access, String name, String desc) {
-        super(ASM5, mv, access, name, desc);
-        this.methodName = name;
-        this.owner = owner;
-        Agent.getWriter().info("Method adapter for " + methodName + " created.");
-    }
-
-    @Override
-    public void visitCode() {
-        mv.visitCode();
+    protected ProfilerMethodAdapter(MethodVisitor mv, int access, String name, String desc) {
+        super(Util.version, mv, access, name, desc);
     }
 
     @Override
     protected void onMethodEnter() {
-        Agent.getWriter().info("OnMethodEnter: " + methodName + " on " + owner);
         mv.visitMethodInsn(INVOKESTATIC, "cz/encircled/eprofiler/Profiler", "methodStart", "()Lcz/encircled/eprofiler/MethodState;", false);
-        mv.visitVarInsn(ASTORE, 1);
+        index = newLocal(Type.getType(MethodState.class));
+        mv.visitVarInsn(Opcodes.ASTORE, index);
+
     }
 
     @Override
     protected void onMethodExit(int opcode) {
-        mv.visitVarInsn(ALOAD, 1);
-        mv.visitMethodInsn(INVOKEINTERFACE, "cz/encircled/eprofiler/DefaultMethodState", "end", "()V", true);
+        mv.visitVarInsn(ALOAD, index);
+        mv.visitMethodInsn(INVOKEINTERFACE, "cz/encircled/eprofiler/MethodState", "end", "()V", true);
     }
 
 }

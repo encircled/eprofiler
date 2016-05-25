@@ -8,6 +8,8 @@ import java.util.List;
  */
 public class DefaultMethodState implements MethodState {
 
+    long id;
+
     long start;
 
     long totalTime;
@@ -15,6 +17,18 @@ public class DefaultMethodState implements MethodState {
     MethodState parent;
 
     List<MethodState> children = new ArrayList<>(4);
+
+    private static String formatStackTrace(StackTraceElement traceElement) {
+        return traceElement.getMethodName() + "#" + traceElement.getClassName();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Override
     public void setStartTime(Long time) {
@@ -24,7 +38,13 @@ public class DefaultMethodState implements MethodState {
     @Override
     public void end() {
         totalTime = Timer.now - start;
-        Agent.getWriter().info(Thread.currentThread().getStackTrace()[1].getMethodName() + " finished in " + totalTime);
+        if (totalTime < 10) {
+            if (parent != null) {
+                // add merge
+            }
+        } else {
+            ProfilerAgent.getWriter().info(id + ":" + formatStackTrace(Thread.currentThread().getStackTrace()[2]) + ":" + totalTime);
+        }
     }
 
     @Override

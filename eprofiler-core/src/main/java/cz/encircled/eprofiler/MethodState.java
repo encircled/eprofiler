@@ -5,6 +5,10 @@ package cz.encircled.eprofiler;
  */
 public interface MethodState {
 
+    long getId();
+
+    void setId(long id);
+
     void setStartTime(Long time);
 
     void end();
