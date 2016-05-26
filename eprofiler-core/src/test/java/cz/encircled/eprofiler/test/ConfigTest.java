@@ -69,4 +69,12 @@ public class ConfigTest {
         Assert.assertTrue(new ProfileConfiguration("debug;classPattern=some").isDebug());
     }
 
+    @Test
+    public void testMinDuration() {
+        Assert.assertEquals(10L, new ProfileConfiguration("classPattern=some;").getMinDurationToLog());
+        Assert.assertEquals(11L, new ProfileConfiguration("classPattern=some;minDurationToLog=11").getMinDurationToLog());
+        Assert.assertEquals(11L, new ProfileConfiguration("classPattern=some;minDurationToLog=11;").getMinDurationToLog());
+        Assert.assertEquals(12L, new ProfileConfiguration("minDurationToLog=12;classPattern=some;").getMinDurationToLog());
+    }
+
 }

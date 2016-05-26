@@ -9,6 +9,10 @@ public interface MethodState {
 
     void setId(long id);
 
+    MethodState getParent();
+
+    void setParent(MethodState parent);
+
     void setStartTime(Long time);
 
     void end();

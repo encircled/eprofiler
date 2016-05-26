@@ -1,9 +1,9 @@
 package cz.encircled.eprofiler;
 
-import cz.encircled.eprofiler.core.ProfilerCore;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.encircled.eprofiler.core.ProfilerCore;
 
 /**
  * @author Kisel on 24.05.2016.
@@ -24,12 +24,24 @@ public class DefaultMethodState implements MethodState {
         return traceElement.getMethodName() + "#" + traceElement.getClassName();
     }
 
+    @Override
     public long getId() {
         return id;
     }
 
+    @Override
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public MethodState getParent() {
+        return parent;
+    }
+
+    @Override
+    public void setParent(MethodState parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -40,12 +52,16 @@ public class DefaultMethodState implements MethodState {
     @Override
     public void end() {
         totalTime = Timer.now - start;
-        if (totalTime < 10) {
-            if (parent != null) {
-                // add merge
-            }
+        if (totalTime < ProfilerCore.config().getMinDurationToLog() && parent != null) {
+            // add merge
+
         } else {
-            ProfilerCore.output().info(id + ":" + formatStackTrace(Thread.currentThread().getStackTrace()[2]) + ":" + totalTime);
+            String parentId = parent == null ? "" : Long.toString(parent.getId());
+            ProfilerCore.output().info(id + ":" + parentId + ":" + formatStackTrace(Thread.currentThread().getStackTrace()[2]) + ":" + totalTime);
+        }
+
+        if (!hasParent()) {
+            Profiler.state.remove();
         }
     }
 
@@ -62,6 +78,7 @@ public class DefaultMethodState implements MethodState {
     @Override
     public MethodState addNested(MethodState state) {
         children.add(state);
+        state.setParent(this);
         return state;
     }
 

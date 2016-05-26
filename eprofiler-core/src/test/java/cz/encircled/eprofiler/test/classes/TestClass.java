@@ -21,7 +21,7 @@ public class TestClass {
         System.out.println("SomeMethod");
         String ret = "returnVal";
         try {
-            Thread.sleep(1);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class TestClass {
     public void anotherMethod() {
         System.out.println("AnotherMethod");
         try {
-            Thread.sleep(2);
+            Thread.sleep(2000);
             System.out.println("AnotherMethodAfterSleep");
         } catch (InterruptedException e) {
             e.printStackTrace();

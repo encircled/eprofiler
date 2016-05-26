@@ -1,7 +1,5 @@
 package cz.encircled.eprofiler.test;
 
-import java.util.regex.Pattern;
-
 import net.openhft.chronicle.queue.ChronicleQueue;
 import net.openhft.chronicle.queue.ChronicleQueueBuilder;
 import net.openhft.chronicle.queue.ExcerptTailer;
@@ -12,8 +10,6 @@ import net.openhft.chronicle.queue.ExcerptTailer;
 public class LogReader {
 
     public static void main(String[] args) {
-        System.out.println(Pattern.compile("net.homecredit.*").matcher("net.homecredit.party").matches());
-
         String basePath = "D:/temp/";
         ChronicleQueue queue = ChronicleQueueBuilder.single(basePath).build();
         ExcerptTailer tailer = queue.createTailer();

@@ -23,6 +23,7 @@ public class Profiler {
             state = new DefaultMethodState();
             state.setId(idCounter.getAndIncrement());
             state.setStartTime(Timer.now);
+            Profiler.state.set(state);
             return state;
         } else {
             DefaultMethodState nested = new DefaultMethodState();
@@ -30,6 +31,7 @@ public class Profiler {
             nested.setStartTime(Timer.now);
             nested.parent = state;
             state.addNested(nested);
+            Profiler.state.set(nested);
             return nested;
         }
     }

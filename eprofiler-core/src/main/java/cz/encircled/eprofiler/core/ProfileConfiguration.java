@@ -1,9 +1,9 @@
 package cz.encircled.eprofiler.core;
 
-import cz.encircled.eprofiler.Util;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.encircled.eprofiler.Util;
 
 /**
  * @author Vlad on 23-May-16.
@@ -15,6 +15,8 @@ public class ProfileConfiguration {
     private boolean isDebug;
 
     private boolean isShowBytecode;
+
+    private long minDurationToLog = 10L;
 
     public ProfileConfiguration(String args) {
         init(args);
@@ -52,7 +54,17 @@ public class ProfileConfiguration {
             case "showBytecode":
                 isShowBytecode = true;
                 break;
+            case "minDurationToLog":
+                if (Util.isNotEmpty(value)) {
+                    minDurationToLog = Long.parseLong(value);
+                }
+                break;
+
         }
+    }
+
+    public long getMinDurationToLog() {
+        return minDurationToLog;
     }
 
     public boolean isShowBytecode() {

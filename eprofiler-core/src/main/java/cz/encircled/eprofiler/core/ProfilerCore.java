@@ -9,17 +9,18 @@ import cz.encircled.eprofiler.Timer;
  */
 public class ProfilerCore {
 
-    private static OutputWriter outputWriter = new ChronicleWriter();
+    private static OutputWriter outputWriter;
 
     private static ProfileConfiguration configuration;
 
     public ProfilerCore(String args) {
-        new Timer().start();
-        initConfig(args);
+        configuration = new ProfileConfiguration(args);
+        outputWriter = new ChronicleWriter();
 
         for (String classNamePattern : config().getClassNamePatterns()) {
             ProfilerCore.output().debug("class pattern " + classNamePattern);
         }
+        new Timer().start();
     }
 
     public static OutputWriter output() {
@@ -28,10 +29,6 @@ public class ProfilerCore {
 
     public static ProfileConfiguration config() {
         return configuration;
-    }
-
-    private void initConfig(String args) {
-        configuration = new ProfileConfiguration(args);
     }
 
 }
