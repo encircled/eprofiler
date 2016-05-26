@@ -1,12 +1,12 @@
 package cz.encircled.eprofiler.test;
 
-import java.lang.management.ManagementFactory;
-
 import com.sun.tools.attach.VirtualMachine;
 import cz.encircled.eprofiler.MethodState;
 import cz.encircled.eprofiler.test.classes.TestClass;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.management.ManagementFactory;
 
 /**
  * @author Kisel on 24.05.2016.
@@ -21,9 +21,10 @@ public class AgentTest extends AbstractProfilerTest {
 
         try {
             VirtualMachine vm = VirtualMachine.attach(pid);
-            vm.loadAgent("D:\\Soft\\eprofiler\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
+//            vm.loadAgent("D:\\Soft\\eprofiler\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
+//                    "classPattern=cz.encircled.eprofiler.test.classes.*;showBytecode;minDurationToLog=0");
+            vm.loadAgent("E:\\\\Soft\\\\projects\\\\eprofiler\\\\eprofiler-core\\\\target\\\\eprofiler-core-1.0-SNAPSHOT.jar",
                     "classPattern=cz.encircled.eprofiler.test.classes.*;showBytecode;minDurationToLog=0");
-//            vm.loadAgent("E:\\Soft\\projects\\eprofiler\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar", "-eprof.classPattern=cz\\..*");
             vm.detach();
         } catch (Exception e) {
             throw new RuntimeException(e);

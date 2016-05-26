@@ -1,11 +1,5 @@
 package cz.encircled.eprofiler.ui.fx;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
@@ -16,6 +10,8 @@ import net.openhft.chronicle.queue.ChronicleQueue;
 import net.openhft.chronicle.queue.ChronicleQueueBuilder;
 import net.openhft.chronicle.queue.ExcerptTailer;
 import net.openhft.chronicle.queue.TailerDirection;
+
+import java.util.*;
 
 /**
  * @author Kisel on 26.05.2016.
@@ -35,14 +31,22 @@ public class FxApplication extends Application {
         TreeItem<String> rootItem = new TreeItem<>("Inbox");
         rootItem.setExpanded(true);
         for (LogEntry logEntry : logEntries) {
-            TreeItem<String> item = new TreeItem<>(logEntry.name + " - " + logEntry.time);
-            rootItem.getChildren().add(item);
+            addSubTree(rootItem, logEntry);
         }
         TreeView<String> tree = new TreeView<>(rootItem);
+
         StackPane root = new StackPane();
         root.getChildren().add(tree);
-        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
+    }
+
+    private void addSubTree(TreeItem<String> parent, LogEntry logEntry) {
+        TreeItem<String> item = new TreeItem<>(logEntry.name + " - " + logEntry.time);
+        parent.getChildren().add(item);
+        for (LogEntry child : logEntry.children) {
+            addSubTree(item, child);
+        }
     }
 
     private Collection<LogEntry> parseLog() {
@@ -57,20 +61,22 @@ public class FxApplication extends Application {
 
         String s;
         while ((s = tailer.readText()) != null) {
-            if (!s.endsWith("in 0") && !s.endsWith("in 1")) {
-                String[] split = s.split(":");
-                LogEntry entry = new LogEntry();
-                entry.id = Long.parseLong(split[0]);
-                entry.name = split[2];
-                entry.time = Long.parseLong(split[3]);
-                if (split[1].isEmpty()) {
-                    roots.add(entry);
-                } else {
+            System.out.println(s);
+            String[] split = s.split(":");
+            LogEntry entry = new LogEntry();
+            entry.id = Long.parseLong(split[0]);
+            entry.name = split[2];
+            entry.time = Long.parseLong(split[3]);
+            if (split[1].isEmpty()) {
+                roots.add(entry);
+            } else {
+                try {
                     index.get(Long.parseLong(split[1])).children.add(entry);
+                } catch (NullPointerException e) {
+                    System.out.println();
                 }
-                index.put(entry.id, entry);
-                System.out.println(s);
             }
+            index.put(entry.id, entry);
         }
         return roots;
     }

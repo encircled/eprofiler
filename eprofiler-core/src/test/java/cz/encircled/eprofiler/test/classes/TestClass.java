@@ -18,10 +18,10 @@ public class TestClass {
     }
 
     public String someMethod() {
-        System.out.println("SomeMethod");
         String ret = "returnVal";
         try {
             Thread.sleep(1000);
+            yetAnotherMethod();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -30,10 +30,17 @@ public class TestClass {
     }
 
     public void anotherMethod() {
-        System.out.println("AnotherMethod");
         try {
             Thread.sleep(2000);
-            System.out.println("AnotherMethodAfterSleep");
+            yetAnotherMethod();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void yetAnotherMethod() {
+        try {
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

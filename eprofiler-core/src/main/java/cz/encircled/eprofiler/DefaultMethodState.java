@@ -1,9 +1,9 @@
 package cz.encircled.eprofiler;
 
+import cz.encircled.eprofiler.core.ProfilerCore;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.encircled.eprofiler.core.ProfilerCore;
 
 /**
  * @author Kisel on 24.05.2016.
@@ -60,7 +60,9 @@ public class DefaultMethodState implements MethodState {
             ProfilerCore.output().info(id + ":" + parentId + ":" + formatStackTrace(Thread.currentThread().getStackTrace()[2]) + ":" + totalTime);
         }
 
-        if (!hasParent()) {
+        if (hasParent()) {
+            Profiler.state.set(parent);
+        } else {
             Profiler.state.remove();
         }
     }
