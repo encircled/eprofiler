@@ -9,7 +9,7 @@ public class TestClass {
         testStatic();
     }
 
-    private static void testStatic() {
+    public static void testStatic() {
         System.out.println("testStatic");
     }
 
@@ -20,7 +20,7 @@ public class TestClass {
     public String someMethod() {
         String ret = "returnVal";
         try {
-            Thread.sleep(1000);
+            Thread.sleep(20);
             yetAnotherMethod();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -31,7 +31,7 @@ public class TestClass {
 
     public void anotherMethod() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(20);
             yetAnotherMethod();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class TestClass {
 
     public void yetAnotherMethod() {
         try {
-            Thread.sleep(500);
+            Thread.sleep(20);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

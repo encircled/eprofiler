@@ -1,8 +1,8 @@
 package cz.encircled.eprofiler;
 
-import java.lang.reflect.Method;
-
 import org.objectweb.asm.Opcodes;
+
+import java.lang.reflect.Method;
 
 /**
  * @author Vlad on 23-May-16.

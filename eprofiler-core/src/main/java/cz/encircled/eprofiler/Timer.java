@@ -6,10 +6,11 @@ package cz.encircled.eprofiler;
 public class Timer extends Thread {
 
     public static volatile long now;
+    public boolean interrupted = false;
 
     @Override
     public void run() {
-        while (true) {
+        while (!interrupted) {
             now = System.currentTimeMillis();
             try {
                 sleep(1);

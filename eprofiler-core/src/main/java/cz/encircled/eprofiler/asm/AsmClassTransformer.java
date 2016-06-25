@@ -56,7 +56,7 @@ public class AsmClassTransformer implements ClassFileTransformer {
     }
 
     private boolean isNotInternal(String dottedClassName) {
-        return !dottedClassName.startsWith("cz.encircled.eprofiler") || dottedClassName.startsWith("cz.encircled.eprofiler.test");
+        return !dottedClassName.startsWith("cz.encircled.eprofiler") || dottedClassName.startsWith("cz.encircled.eprofiler.test") || dottedClassName.startsWith("cz.encircled.eprofiler.ui");
     }
 
     private boolean matchesPattern(String dottedClassName) {

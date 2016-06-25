@@ -10,9 +10,15 @@ public class LogEntry {
 
     public long id;
 
-    public String name;
+    public String methodName;
 
-    public long time;
+    public String className;
+
+    public long start;
+
+    public long end;
+
+    public long totalTime;
 
     public LogEntry parent;
 

@@ -20,7 +20,7 @@ public class ClassAdapter extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         if (mv != null) {
-            mv = new ProfilerMethodAdapter(mv, access, name, desc);
+            mv = new ProfilerMethodAdapter(mv, access, name, desc, owner);
         }
         return mv;
     }

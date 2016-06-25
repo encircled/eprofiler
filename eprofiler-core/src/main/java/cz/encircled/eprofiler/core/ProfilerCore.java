@@ -1,8 +1,8 @@
 package cz.encircled.eprofiler.core;
 
-import cz.encircled.eprofiler.ChronicleWriter;
-import cz.encircled.eprofiler.OutputWriter;
 import cz.encircled.eprofiler.Timer;
+import cz.encircled.eprofiler.output.ChronicleWriter;
+import cz.encircled.eprofiler.output.OutputWriter;
 
 /**
  * @author Vlad on 25-May-16.
