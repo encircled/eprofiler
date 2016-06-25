@@ -66,9 +66,16 @@ public class CallStackTab extends Tab {
         TextField minTimeInput = new NumberTextField();
         minTimeInput.textProperty().bindBidirectional(minElapsedTime);
 
+        Button reload = new Button("Reload");
+        reload.setOnAction(event -> {
+            logEntries = null;
+            repaint();
+        });
+
         toolBar.getItems().addAll(
                 new Label("order:"), orderCombo, new Separator(Orientation.VERTICAL),
-                new Label("min elapsed time:"), minTimeInput, new Separator(Orientation.VERTICAL)
+                new Label("min elapsed time:"), minTimeInput, new Separator(Orientation.VERTICAL),
+                reload
         );
 
 
