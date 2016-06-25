@@ -6,7 +6,7 @@ package cz.encircled.eprofiler.test.classes;
 public class RecursiveLoopWithNestedCall {
 
     public void loopStart() {
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 20; i++) {
             loopOuter();
         }
     }
@@ -18,7 +18,7 @@ public class RecursiveLoopWithNestedCall {
 
     private void firstLoopNested() {
         try {
-            Thread.sleep(1);
+            Thread.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -26,7 +26,7 @@ public class RecursiveLoopWithNestedCall {
 
     private void secondLoopNested() {
         try {
-            Thread.sleep(1);
+            Thread.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -57,8 +57,16 @@ public class ChronicleWriter implements OutputWriter {
 
     protected String buildMessage(MethodState state, Long totalTime) {
         String parentId = state.parent == null ? "" : Long.toString(state.parent.executionId);
-        return String.join(":", Long.toString(state.executionId), parentId, state.descriptor.name,
-                state.descriptor.className, Long.toString(state.starts.get(0)), Long.toString(state.ends.get(0)), Long.toString(state.repeats), Long.toString(totalTime));
+        return String.join(":",
+                Long.toString(state.executionId),
+                parentId,
+                state.descriptor.name,
+                state.descriptor.className,
+                Long.toString(state.starts.get(0)),
+                Long.toString(state.ends.get(0)),
+                Long.toString(totalTime),
+                Long.toString(state.repeats)
+        );
     }
 
 }

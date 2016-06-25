@@ -45,9 +45,9 @@ public class AgentTest extends AbstractProfilerTest {
 
         MethodCall reference =
                 new MethodCall("loopStart", 1)
-                        .child(new MethodCall("loopOuter", 25)
-                                .child(new MethodCall("firstLoopNested", 25).minTime(20))
-                                .child(new MethodCall("secondLoopNested", 25).minTime(20)));
+                        .child(new MethodCall("loopOuter", 20)
+                                .child(new MethodCall("firstLoopNested", 20).minTime(20))
+                                .child(new MethodCall("secondLoopNested", 20).minTime(20)));
 
         assertMethodsCalls(state, reference);
     }
