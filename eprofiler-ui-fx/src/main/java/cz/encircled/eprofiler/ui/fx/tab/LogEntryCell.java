@@ -32,7 +32,8 @@ public class LogEntryCell extends TextFieldTreeCell<LogEntry> {
             setText("");
             FlowPane pane = new FlowPane();
 
-            Label methodLabel = new Label(logEntry.className + "." + logEntry.methodName + "()");
+            // TODO separate arguments (non-bold)
+            Label methodLabel = new Label(logEntry.className + "." + logEntry.methodName);
             methodLabel.getStyleClass().add("method-label");
 
             Label timeLabel = new Label(time);

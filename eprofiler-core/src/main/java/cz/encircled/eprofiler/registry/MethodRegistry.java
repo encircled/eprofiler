@@ -35,10 +35,10 @@ public class MethodRegistry {
         String arguments = "";
         for (Type type : Type.getArgumentTypes(description)) {
             String argClassName = type.getClassName();
-            arguments += argClassName.substring(argClassName.lastIndexOf(".")) + ", ";
+            arguments += argClassName.substring(argClassName.lastIndexOf(".") + 1) + ", ";
         }
         if (!arguments.isEmpty()) {
-            arguments = arguments.substring(0, arguments.length() - 3);
+            arguments = arguments.substring(0, arguments.length() - 2);
         }
         return arguments;
     }
