@@ -12,7 +12,6 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -22,17 +21,20 @@ import java.util.stream.Collectors;
 /**
  * @author Vlad on 25-Jun-16.
  */
-public class CallStackTab extends Tab {
+public class CallTreeTab extends Tab {
 
-    private final TreeView<String> treeView;
+    private final TreeView<LogEntry> treeView;
+
     private List<LogEntry> logEntries = null;
+
     private FxApplication fxApplication;
+
     private ObjectProperty<MethodOrder> methodOrder = new SimpleObjectProperty<>();
 
     private StringProperty minElapsedTime = new SimpleStringProperty();
 
-    public CallStackTab(FxApplication fxApplication) {
-        super("Call stack");
+    public CallTreeTab(FxApplication fxApplication) {
+        super("Call tree");
         setClosable(false);
         this.fxApplication = fxApplication;
 
@@ -42,6 +44,9 @@ public class CallStackTab extends Tab {
         root.setTop(toolBar);
 
         treeView = new TreeView<>();
+        treeView.getStyleClass().add("call-tree");
+        treeView.setCellFactory((param) -> new LogEntryCell());
+        
 
         root.setCenter(treeView);
 
@@ -113,7 +118,7 @@ public class CallStackTab extends Tab {
     }
 
     private void print(List<LogEntry> filtered) {
-        TreeItem<String> rootItem = new TreeItem<>("Call stack");
+        TreeItem<LogEntry> rootItem = new TreeItem<>();
         rootItem.setExpanded(true);
 
         for (LogEntry logEntry : filtered) {
@@ -123,14 +128,8 @@ public class CallStackTab extends Tab {
     }
 
 
-    private void addSubTree(TreeItem<String> parent, LogEntry logEntry) {
-        String timeFormat = logEntry.totalTime > 999L ? "s 'sec'" : "S 'ms'";
-        String time = DurationFormatUtils.formatDuration(logEntry.totalTime, timeFormat);
-        String text = logEntry.methodName + "()#" + logEntry.className + " - " + time;
-        if (logEntry.repeats > 1) {
-            text += ". Repeats: " + logEntry.repeats;
-        }
-        TreeItem<String> item = new TreeItem<>(text);
+    private void addSubTree(TreeItem<LogEntry> parent, LogEntry logEntry) {
+        TreeItem<LogEntry> item = new TreeItem<>(logEntry);
 
         parent.getChildren().add(item);
         for (LogEntry child : logEntry.children) {

@@ -1,0 +1,39 @@
+.call-tree .tree-cell {
+    -fx-font-size: 15px;
+    -fx-text-fill: black;
+}
+
+.call-tree .tree-cell:even {
+    -fx-background-color: rgb(240, 240, 240);
+}
+
+.call-tree .tree-cell.empty:even {
+    -fx-background-color: #fff;
+}
+
+.call-tree .tree-cell.root {
+
+}
+
+.call-tree .tree-cell .method-label {
+    -fx-font-weight: bold;
+    -fx-padding: 0 4 0 0;
+}
+
+.call-tree .tree-cell .repeats-label {
+    -fx-text-fill: rgb(160, 160, 160);
+}
+
+.call-tree .tree-cell:selected, .call-tree .tree-cell:selected {
+    -fx-background-color: #7293b6;
+    -fx-text-fill: #fff;
+}
+
+.tree-cell .tree-disclosure-node .arrow {
+
+}
+
+.tree-cell:expanded .tree-disclosure-node .arrow {
+
+}
+

@@ -2,7 +2,7 @@ package cz.encircled.eprofiler.ui.fx;
 
 import cz.encircled.eprofiler.ui.fx.parser.ChronicleLogParser;
 import cz.encircled.eprofiler.ui.fx.parser.LogParser;
-import cz.encircled.eprofiler.ui.fx.tab.CallStackTab;
+import cz.encircled.eprofiler.ui.fx.tab.CallTreeTab;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -44,20 +44,24 @@ public class FxApplication extends Application {
         root.setTop(getMenu());
 
         primaryScene = new Scene(root);
+        primaryScene.getStylesheets().add("/styles.css");
 
         TabPane tabs = new TabPane();
         root.setCenter(tabs);
-        tabs.getTabs().add(new CallStackTab(this));
+        tabs.getTabs().add(new CallTreeTab(this));
 
         filePath.addListener(((observable, oldValue, newValue) -> {
             if (StringUtils.isNotBlank(newValue)) {
-                ((CallStackTab) tabs.getTabs().get(0)).repaint();
+                ((CallTreeTab) tabs.getTabs().get(0)).repaint();
             }
         }));
 
         primaryStage.setScene(primaryScene);
         primaryStage.show();
         primaryStage.setMaximized(true);
+
+        // TODO
+        filePath.set("D:/temp");
     }
 
     private MenuBar getMenu() {

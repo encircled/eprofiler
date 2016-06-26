@@ -28,17 +28,23 @@ public class ChronicleLogParser implements LogParser {
             String[] split = s.split(":");
             LogEntry entry = new LogEntry();
             entry.id = Long.parseLong(split[0]);
-            entry.methodName = split[2];
-            entry.className = split[3];
-            entry.start = Long.parseLong(split[4]);
-            entry.end = Long.parseLong(split[5]);
-            entry.totalTime = Long.parseLong(split[6]);
-            entry.repeats = Long.parseLong(split[7]);
+            entry.methodName = split[2] + "(" + split[3] + ")";
+            entry.returnType = split[4];
+
+            entry.className = split[5].substring(split[5].lastIndexOf("."));
+            entry.packageName = split[5].substring(0, split[5].lastIndexOf("."));
+
+            entry.start = Long.parseLong(split[6]);
+            entry.end = Long.parseLong(split[7]);
+            entry.totalTime = Long.parseLong(split[8]);
+            entry.repeats = Long.parseLong(split[9]);
 
             if (split[1].isEmpty()) {
                 roots.add(entry);
             } else {
-                index.get(Long.parseLong(split[1])).children.add(entry);
+                LogEntry parentEntry = index.get(Long.parseLong(split[1]));
+                parentEntry.children.add(entry);
+                entry.parent = parentEntry;
             }
             index.put(entry.id, entry);
         }

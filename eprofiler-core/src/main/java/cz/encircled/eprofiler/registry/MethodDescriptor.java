@@ -11,6 +11,10 @@ public class MethodDescriptor {
 
     public String className;
 
+    public String arguments;
+
+    public String returnType;
+
     @Override
     public String toString() {
         return "MethodDescriptor{" +

@@ -12,7 +12,11 @@ public class LogEntry {
 
     public String methodName;
 
+    public String returnType;
+
     public String className;
+
+    public String packageName;
 
     public long start;
 
@@ -25,6 +29,13 @@ public class LogEntry {
     public LogEntry parent;
 
     public List<LogEntry> children = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "LogEntry{" +
+                "methodName='" + methodName + '\'' +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

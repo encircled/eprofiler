@@ -25,11 +25,11 @@ public class TestClass {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        anotherMethod();
+        anotherMethod("");
         return ret;
     }
 
-    public void anotherMethod() {
+    public void anotherMethod(String any) {
         try {
             Thread.sleep(20);
             yetAnotherMethod();

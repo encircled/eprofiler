@@ -49,7 +49,7 @@ public class Profiler {
         return state;
     }
 
-    public static MethodState findRepeatedSibling(List<MethodState> states, long id) {
+    private static MethodState findRepeatedSibling(List<MethodState> states, long id) {
         for (MethodState state : states) {
             if (state.descriptor.id == id) {
                 return state;

@@ -61,6 +61,8 @@ public class ChronicleWriter implements OutputWriter {
                 Long.toString(state.executionId),
                 parentId,
                 state.descriptor.name,
+                state.descriptor.arguments,
+                state.descriptor.returnType,
                 state.descriptor.className,
                 Long.toString(state.starts.get(0)),
                 Long.toString(state.ends.get(0)),
