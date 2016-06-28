@@ -1,15 +1,16 @@
 package cz.encircled.eprofiler.test;
 
+import java.lang.management.ManagementFactory;
+import java.util.concurrent.CountDownLatch;
+
 import com.sun.tools.attach.VirtualMachine;
 import cz.encircled.eprofiler.MethodState;
 import cz.encircled.eprofiler.test.classes.RecursiveLoopWithNestedCall;
 import cz.encircled.eprofiler.test.classes.RecursiveSimpleLoop;
 import cz.encircled.eprofiler.test.classes.TestClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Kisel on 24.05.2016.
@@ -23,14 +24,17 @@ public class AgentTest extends AbstractProfilerTest {
 
         try {
             VirtualMachine vm = VirtualMachine.attach(pid);
-//            vm.loadAgent("D:\\Soft\\eprofiler\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
-//                    "classPattern=cz.encircled.eprofiler.test.classes.*;showBytecode;minDurationToLog=0");
-            vm.loadAgent("E:\\Soft\\projects\\eprofiler\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
+            vm.loadAgent("..\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
                     "classPattern=cz.encircled.eprofiler.test.classes.*;minDurationToLog=0");
             vm.detach();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Before
+    public void before() {
+        states.clear();
     }
 
     // Nested method call in a loop
@@ -39,9 +43,8 @@ public class AgentTest extends AbstractProfilerTest {
         RecursiveLoopWithNestedCall test = new RecursiveLoopWithNestedCall();
         test.loopStart();
 
-        Assert.assertEquals(2, states.size());
-        MethodState state = states.get(1);
-        states.clear();
+        Assert.assertEquals(1, states.size());
+        MethodState state = states.get(0);
 
         MethodCall reference =
                 new MethodCall("loopStart", 1)
@@ -59,8 +62,8 @@ public class AgentTest extends AbstractProfilerTest {
         test.recursiveLoopStart(true);
 
         // Constructor and single method call
-        Assert.assertEquals(2, states.size());
-        MethodState state = states.get(1);
+        Assert.assertEquals(1, states.size());
+        MethodState state = states.get(0);
         states.clear();
 
         MethodCall reference =

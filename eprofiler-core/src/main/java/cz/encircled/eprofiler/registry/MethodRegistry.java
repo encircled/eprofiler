@@ -1,10 +1,11 @@
 package cz.encircled.eprofiler.registry;
 
-import org.jetbrains.annotations.NotNull;
-import org.objectweb.asm.Type;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import cz.encircled.eprofiler.Util;
+import org.jetbrains.annotations.NotNull;
+import org.objectweb.asm.Type;
 
 /**
  * @author Vlad on 25-Jun-16.
@@ -23,7 +24,7 @@ public class MethodRegistry {
 
         descriptor.arguments = parseArguments(description);
 
-        descriptor.returnType = Type.getReturnType(description).getClassName();
+        descriptor.returnType = getTokenAfterLastDot(Type.getReturnType(description).getClassName());
 
         idToMethod.put(descriptor.id, descriptor);
 
@@ -35,12 +36,16 @@ public class MethodRegistry {
         String arguments = "";
         for (Type type : Type.getArgumentTypes(description)) {
             String argClassName = type.getClassName();
-            arguments += argClassName.substring(argClassName.lastIndexOf(".") + 1) + ", ";
+            arguments += getTokenAfterLastDot(argClassName) + ", ";
         }
         if (!arguments.isEmpty()) {
             arguments = arguments.substring(0, arguments.length() - 2);
         }
         return arguments;
+    }
+
+    private static String getTokenAfterLastDot(String source) {
+        return Util.isNotEmpty(source) ? source.substring(source.lastIndexOf(".") + 1) : "";
     }
 
     public static MethodDescriptor get(long id) {
