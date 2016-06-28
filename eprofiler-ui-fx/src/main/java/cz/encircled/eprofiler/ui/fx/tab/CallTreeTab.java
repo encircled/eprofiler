@@ -110,6 +110,9 @@ public class CallTreeTab extends Tab {
                     case ELAPSED_TIME:
                         Collections.sort(filtered, (o1, o2) -> Long.compare(o2.totalTime, o1.totalTime));
                         break;
+                    case CONSUMED_CPU:
+                        Collections.sort(filtered, (o1, o2) -> Long.compare(o2.consumedCpu, o1.consumedCpu));
+                        break;
                 }
             }
 

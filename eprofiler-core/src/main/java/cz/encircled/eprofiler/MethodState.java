@@ -2,7 +2,10 @@ package cz.encircled.eprofiler;
 
 import cz.encircled.eprofiler.core.ProfilerCore;
 import cz.encircled.eprofiler.registry.MethodDescriptor;
+import sun.management.ManagementFactoryHelper;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,12 @@ import static cz.encircled.eprofiler.Profiler.state;
 public class MethodState implements MethodEnd {
 
     public long executionId;
+
+    public long cpuBefore;
+
+    public long consumedCpu = 0L;
+
+    public long consumedMemory = 0L;
 
     public MethodDescriptor descriptor;
 
@@ -30,6 +39,15 @@ public class MethodState implements MethodEnd {
 
     @Override
     public void end() {
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        consumedCpu += threadMXBean.getCurrentThreadCpuTime();
+
+        long memory = ((com.sun.management.ThreadMXBean) ManagementFactoryHelper.getThreadMXBean())
+                .getThreadAllocatedBytes(Thread.currentThread().getId());
+        if (memory > consumedMemory) {
+            consumedMemory = memory;
+        }
+
         ends.add(Timer.now);
 
         if (hasParent()) {

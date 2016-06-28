@@ -3,6 +3,7 @@ package cz.encircled.eprofiler;
 import cz.encircled.eprofiler.registry.MethodDescriptor;
 import cz.encircled.eprofiler.registry.MethodRegistry;
 
+import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -22,6 +23,8 @@ public class Profiler {
     private static AtomicLong idCounter = new AtomicLong(1L);
 
     public static MethodState methodStart(long id) {
+        long cpuAtStart = ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();
+
         MethodDescriptor descriptor = MethodRegistry.get(id);
 
         MethodState state = Profiler.state.get();
@@ -34,6 +37,7 @@ public class Profiler {
                 sibling.repeats++;
                 Profiler.state.set(sibling);
                 sibling.starts.add(Timer.now);
+                sibling.cpuBefore = cpuAtStart;
                 return sibling;
             } else {
                 MethodState nested = new MethodState();
@@ -46,6 +50,7 @@ public class Profiler {
         state.executionId = idCounter.getAndIncrement();
         state.starts.add(Timer.now);
         state.descriptor = descriptor;
+        state.cpuBefore = cpuAtStart;
         return state;
     }
 

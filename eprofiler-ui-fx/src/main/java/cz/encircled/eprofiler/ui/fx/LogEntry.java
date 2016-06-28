@@ -18,6 +18,10 @@ public class LogEntry {
 
     public String packageName;
 
+    public long consumedCpu;
+
+    public long consumedMemory;
+
     public long start;
 
     public long end;

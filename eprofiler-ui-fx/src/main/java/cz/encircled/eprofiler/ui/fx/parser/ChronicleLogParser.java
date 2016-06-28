@@ -38,6 +38,8 @@ public class ChronicleLogParser implements LogParser {
             entry.end = Long.parseLong(split[7]);
             entry.totalTime = Long.parseLong(split[8]);
             entry.repeats = Long.parseLong(split[9]);
+            entry.consumedCpu = Long.parseLong(split[10]);
+            entry.consumedMemory = Long.parseLong(split[11]);
 
             if (split[1].isEmpty()) {
                 roots.add(entry);

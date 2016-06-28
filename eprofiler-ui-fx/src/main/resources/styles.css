@@ -20,6 +20,10 @@
     -fx-padding: 0 4 0 0;
 }
 
+.call-tree .tree-cell .ram-label {
+    -fx-padding: 0 14 0 0;
+}
+
 .call-tree .tree-cell .repeats-label {
     -fx-text-fill: rgb(160, 160, 160);
 }

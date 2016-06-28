@@ -1,8 +1,5 @@
 package cz.encircled.eprofiler.test;
 
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.CountDownLatch;
-
 import com.sun.tools.attach.VirtualMachine;
 import cz.encircled.eprofiler.MethodState;
 import cz.encircled.eprofiler.test.classes.RecursiveLoopWithNestedCall;
@@ -11,6 +8,9 @@ import cz.encircled.eprofiler.test.classes.TestClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.management.ManagementFactory;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Kisel on 24.05.2016.
@@ -90,7 +90,7 @@ public class AgentTest extends AbstractProfilerTest {
         countDownLatch.await();
 
         // TODO test
-//        Assert.assertEquals();
     }
+
 
 }

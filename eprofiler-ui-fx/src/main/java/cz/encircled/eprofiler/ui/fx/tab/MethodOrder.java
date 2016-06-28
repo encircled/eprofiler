@@ -6,6 +6,7 @@ package cz.encircled.eprofiler.ui.fx.tab;
 enum MethodOrder {
 
     START_TIME,
-    ELAPSED_TIME
+    ELAPSED_TIME,
+    CONSUMED_CPU
 
 }
