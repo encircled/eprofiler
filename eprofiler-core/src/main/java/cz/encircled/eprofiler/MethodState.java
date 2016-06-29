@@ -39,13 +39,18 @@ public class MethodState implements MethodEnd {
 
     @Override
     public void end() {
-        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        consumedCpu += threadMXBean.getCurrentThreadCpuTime();
+        try {
+            ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+            consumedCpu += threadMXBean.getCurrentThreadCpuTime();
 
-        long memory = ((com.sun.management.ThreadMXBean) ManagementFactoryHelper.getThreadMXBean())
-                .getThreadAllocatedBytes(Thread.currentThread().getId());
-        if (memory > consumedMemory) {
-            consumedMemory = memory;
+            long memory = ((com.sun.management.ThreadMXBean) ManagementFactoryHelper.getThreadMXBean())
+                    .getThreadAllocatedBytes(Thread.currentThread().getId());
+            if (memory > consumedMemory) {
+                consumedMemory = memory;
+            }
+        } catch (Exception e) {
+            consumedMemory = 0L;
+            consumedCpu = 0L;
         }
 
         ends.add(Timer.now);
