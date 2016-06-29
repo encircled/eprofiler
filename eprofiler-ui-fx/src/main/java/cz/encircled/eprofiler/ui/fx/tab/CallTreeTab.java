@@ -27,11 +27,15 @@ public class CallTreeTab extends Tab {
 
     private List<LogEntry> logEntries = null;
 
+    private List<LogEntry> filteredLogEntries = null;
+
     private FxApplication fxApplication;
 
     private ObjectProperty<MethodOrder> methodOrder = new SimpleObjectProperty<>();
 
     private StringProperty minElapsedTime = new SimpleStringProperty();
+
+    private StringProperty nameSearch = new SimpleStringProperty("");
 
     public CallTreeTab(FxApplication fxApplication) {
         super("Call tree");
@@ -46,7 +50,7 @@ public class CallTreeTab extends Tab {
         treeView = new TreeView<>();
         treeView.getStyleClass().add("call-tree");
         treeView.setCellFactory((param) -> new LogEntryCell());
-        
+
 
         root.setCenter(treeView);
 
@@ -57,6 +61,7 @@ public class CallTreeTab extends Tab {
 
     private void setListeners() {
         minElapsedTime.addListener(observable -> repaint());
+        nameSearch.addListener(observable -> repaint());
         methodOrder.addListener(observable -> repaint());
     }
 
@@ -71,6 +76,9 @@ public class CallTreeTab extends Tab {
         TextField minTimeInput = new NumberTextField();
         minTimeInput.textProperty().bindBidirectional(minElapsedTime);
 
+        TextField nameSearchInput = new TextField();
+        nameSearchInput.textProperty().bindBidirectional(nameSearch);
+
         Button reload = new Button("Reload");
         reload.setOnAction(event -> {
             logEntries = null;
@@ -80,6 +88,7 @@ public class CallTreeTab extends Tab {
         toolBar.getItems().addAll(
                 new Label("order:"), orderCombo, new Separator(Orientation.VERTICAL),
                 new Label("min elapsed time:"), minTimeInput, new Separator(Orientation.VERTICAL),
+                new Label("search:"), nameSearchInput, new Separator(Orientation.VERTICAL),
                 reload
         );
 
@@ -92,10 +101,16 @@ public class CallTreeTab extends Tab {
             if (logEntries == null) {
                 logEntries = fxApplication.logParser.parse(fxApplication.filePath.get());
             }
+
             List<LogEntry> filtered = logEntries.stream().filter(logEntry -> {
                 if (StringUtils.isNoneBlank(minElapsedTime.get())) {
                     long minTime = Long.parseLong(minElapsedTime.get());
                     if (minTime > logEntry.totalTime) {
+                        return false;
+                    }
+                }
+                if (StringUtils.isNoneBlank(nameSearch.get())) {
+                    if (!(logEntry.className + logEntry.methodName).contains(nameSearch.get())) {
                         return false;
                     }
                 }
