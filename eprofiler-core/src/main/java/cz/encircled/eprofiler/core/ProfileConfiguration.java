@@ -1,9 +1,9 @@
 package cz.encircled.eprofiler.core;
 
+import cz.encircled.eprofiler.Util;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.encircled.eprofiler.Util;
 
 /**
  * @author Vlad on 23-May-16.
@@ -17,6 +17,8 @@ public class ProfileConfiguration {
     private boolean isShowBytecode;
 
     private long minDurationToLog = 10L;
+
+    private String outputFolder;
 
     public ProfileConfiguration(String args) {
         init(args);
@@ -59,7 +61,9 @@ public class ProfileConfiguration {
                     minDurationToLog = Long.parseLong(value);
                 }
                 break;
-
+            case "outputFolder":
+                outputFolder = value;
+                break;
         }
     }
 
@@ -79,9 +83,16 @@ public class ProfileConfiguration {
         return classNamePatterns;
     }
 
+    public String getOutputFolder() {
+        return outputFolder;
+    }
+
     private void validate() {
         if (classNamePatterns.isEmpty()) {
             throw new RuntimeException("Class name pattern must be not null");
+        }
+        if (Util.isEmpty(outputFolder)) {
+            throw new RuntimeException("Output folder must be not null");
         }
     }
 

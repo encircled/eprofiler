@@ -11,14 +11,11 @@ import net.openhft.chronicle.queue.ExcerptAppender;
  */
 public class ChronicleWriter implements OutputWriter {
 
-//    private ArrayBlockingQueue<String> messages = new ArrayBlockingQueue<>(128);
-
     private final boolean debug;
     private ExcerptAppender appender;
 
     public ChronicleWriter() {
-        String basePath = "D:/temp/";
-        ChronicleQueue queue = ChronicleQueueBuilder.single(basePath).build();
+        ChronicleQueue queue = ChronicleQueueBuilder.single(ProfilerCore.config().getOutputFolder()).build();
         appender = queue.createAppender();
         debug = ProfilerCore.config().isDebug();
     }

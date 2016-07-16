@@ -25,7 +25,7 @@ public class AgentTest extends AbstractProfilerTest {
         try {
             VirtualMachine vm = VirtualMachine.attach(pid);
             vm.loadAgent("..\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
-                    "classPattern=cz.encircled.eprofiler.test.classes.*;minDurationToLog=0");
+                    "classPattern=cz.encircled.eprofiler.test.classes.*;minDurationToLog=0;outputFolder=D:/temp");
             vm.detach();
         } catch (Exception e) {
             throw new RuntimeException(e);

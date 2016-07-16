@@ -34,7 +34,7 @@ public class MethodState implements MethodEnd {
 
     public List<MethodState> children = new ArrayList<>(4);
 
-    // how many times this method has been called
+    // how many times this method has been called in current call tree
     public long repeats = 1;
 
     @Override
@@ -42,7 +42,10 @@ public class MethodState implements MethodEnd {
         try {
             ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
             consumedCpu += threadMXBean.getCurrentThreadCpuTime();
-
+        } catch (Exception e) {
+            consumedCpu = 0L;
+        }
+        try {
             long memory = ((com.sun.management.ThreadMXBean) ManagementFactoryHelper.getThreadMXBean())
                     .getThreadAllocatedBytes(Thread.currentThread().getId());
             if (memory > consumedMemory) {
@@ -50,7 +53,6 @@ public class MethodState implements MethodEnd {
             }
         } catch (Exception e) {
             consumedMemory = 0L;
-            consumedCpu = 0L;
         }
 
         ends.add(Timer.now);

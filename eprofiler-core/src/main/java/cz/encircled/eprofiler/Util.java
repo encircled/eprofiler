@@ -11,8 +11,12 @@ public class Util {
 
     public static final int version = Opcodes.ASM5;
 
+    public static boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
+    }
+
     public static boolean isNotEmpty(String string) {
-        return string != null && !string.isEmpty();
+        return !isEmpty(string);
     }
 
     public static Method getMethod(Class<?> clazz, String name) {
