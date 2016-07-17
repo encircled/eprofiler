@@ -3,6 +3,7 @@ package cz.encircled.eprofiler.ui.fx.tab;
 import cz.encircled.eprofiler.ui.fx.FxApplication;
 import cz.encircled.eprofiler.ui.fx.LogEntry;
 import cz.encircled.eprofiler.ui.fx.components.NumberTextField;
+import cz.encircled.eprofiler.ui.fx.model.MethodOrder;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.geometry.Orientation;

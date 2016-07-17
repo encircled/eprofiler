@@ -59,4 +59,8 @@ public class LogEntry {
         return (int) (id ^ (id >>> 32));
     }
 
+    public long getTotalTime() {
+        return totalTime;
+    }
+
 }
