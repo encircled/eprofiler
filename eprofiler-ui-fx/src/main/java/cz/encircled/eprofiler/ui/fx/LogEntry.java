@@ -22,6 +22,8 @@ public class LogEntry {
 
     public long consumedMemory;
 
+    public int threadCount;
+
     public long start;
 
     public long end;

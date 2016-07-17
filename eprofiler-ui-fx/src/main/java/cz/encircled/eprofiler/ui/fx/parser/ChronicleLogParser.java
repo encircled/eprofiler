@@ -18,6 +18,10 @@ public class ChronicleLogParser implements LogParser {
 
     @Override
     public List<LogEntry> parse(String path) {
+        return parseInternal(path);
+    }
+
+    private List<LogEntry> parseInternal(String path) {
         List<LogEntry> roots = new ArrayList<>(64);
         Map<Long, LogEntry> index = new HashMap<>(256);
 
@@ -40,6 +44,7 @@ public class ChronicleLogParser implements LogParser {
             entry.repeats = Long.parseLong(split[9]);
             entry.consumedCpu = Long.parseLong(split[10]);
             entry.consumedMemory = Long.parseLong(split[11]);
+            entry.threadCount = Integer.parseInt(split[12]);
 
             if (split[1].isEmpty()) {
                 roots.add(entry);

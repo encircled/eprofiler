@@ -1,9 +1,15 @@
 package cz.encircled.eprofiler.ui.fx;
 
 import cz.encircled.eprofiler.ui.fx.parser.ChronicleLogParser;
-import cz.encircled.eprofiler.ui.fx.parser.LogParser;
+import cz.encircled.eprofiler.ui.fx.parser.LogEntryService;
+import cz.encircled.eprofiler.ui.fx.parser.LogEntryServiceImpl;
+import cz.encircled.eprofiler.ui.fx.tab.AbstractProfilerTab;
 import cz.encircled.eprofiler.ui.fx.tab.CallTreeTab;
+import cz.encircled.eprofiler.ui.fx.tab.MethodDetailTab;
+import cz.encircled.eprofiler.ui.fx.tab.ProfilerTab;
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
@@ -17,7 +23,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 
@@ -26,8 +31,13 @@ import java.io.File;
  */
 public class FxApplication extends Application {
 
-    public LogParser logParser = new ChronicleLogParser();
+    public LogEntryService logEntryService = new LogEntryServiceImpl(new ChronicleLogParser());
+
     public StringProperty filePath = new SimpleStringProperty();
+
+    public ObjectProperty<LogEntry> selectedMethod = new SimpleObjectProperty<>(null);
+    // TODO
+    public TabPane tabs;
     private Stage primaryStage;
     private Scene primaryScene;
 
@@ -46,15 +56,14 @@ public class FxApplication extends Application {
         primaryScene = new Scene(root);
         primaryScene.getStylesheets().add("/styles.css");
 
-        TabPane tabs = new TabPane();
+        tabs = new TabPane();
         root.setCenter(tabs);
         tabs.getTabs().add(new CallTreeTab(this));
+        tabs.getTabs().add(new MethodDetailTab(this));
 
-        filePath.addListener(((observable, oldValue, newValue) -> {
-            if (StringUtils.isNotBlank(newValue)) {
-                ((CallTreeTab) tabs.getTabs().get(0)).repaint();
-            }
-        }));
+        tabs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            ((AbstractProfilerTab) newValue).repaint();
+        });
 
         primaryStage.setScene(primaryScene);
         primaryStage.show();
@@ -62,6 +71,18 @@ public class FxApplication extends Application {
 
         // TODO
         filePath.set("D:/temp");
+    }
+
+    public boolean isActiveTab(ProfilerTab tab) {
+        return getActiveTab() == tab;
+    }
+
+    public ProfilerTab getActiveTab() {
+        return ProfilerTab.getTabByIndex(tabs.getSelectionModel().getSelectedIndex());
+    }
+
+    public void switchTo(ProfilerTab tab) {
+        tabs.getSelectionModel().select(tab.index);
     }
 
     private MenuBar getMenu() {

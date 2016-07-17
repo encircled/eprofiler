@@ -24,6 +24,8 @@ public class MethodState implements MethodEnd {
 
     public long consumedMemory = 0L;
 
+    public int threadCount = 0;
+
     public MethodDescriptor descriptor;
 
     public List<Long> starts = new ArrayList<>(4);
@@ -42,6 +44,7 @@ public class MethodState implements MethodEnd {
         try {
             ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
             consumedCpu += threadMXBean.getCurrentThreadCpuTime();
+            threadCount = threadMXBean.getThreadCount();
         } catch (Exception e) {
             consumedCpu = 0L;
         }

@@ -34,6 +34,22 @@ public class AgentTest extends AbstractProfilerTest {
 
     @Before
     public void before() {
+        /*try {
+            String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
+            int p = nameOfRunningVM.indexOf('@');
+            long pid = Long.parseLong(nameOfRunningVM.substring(0, p));
+
+            Sigar sigar = new Sigar();
+            ProcCpu procCpu = new ProcCpu();
+            procCpu.gather(sigar, pid);
+
+            ProcMem memory = new ProcMem();
+            memory.gather(sigar, pid);
+            System.out.println(Long.toString(memory.getSize()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }*/
         states.clear();
     }
 

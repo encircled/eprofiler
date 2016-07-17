@@ -66,7 +66,8 @@ public class ChronicleWriter implements OutputWriter {
                 Long.toString(totalTime),
                 Long.toString(state.repeats),
                 Long.toString(state.consumedCpu / 1000L),
-                Long.toString(state.consumedMemory)
+                Long.toString(state.consumedMemory),
+                Integer.toString(state.threadCount)
         );
     }
 

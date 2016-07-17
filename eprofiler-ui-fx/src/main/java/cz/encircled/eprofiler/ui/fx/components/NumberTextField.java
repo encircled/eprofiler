@@ -1,5 +1,6 @@
 package cz.encircled.eprofiler.ui.fx.components;
 
+import javafx.beans.property.Property;
 import javafx.scene.control.TextField;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +26,10 @@ public class NumberTextField extends TextField {
         if (validate(text)) {
             super.replaceSelection(text);
         }
+    }
+
+    public void bindBidirectional(Property<? extends Number> other) {
+        textProperty().bindBidirectional(other, new LongFormat());
     }
 
     private boolean validate(String text) {
