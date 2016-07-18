@@ -1,5 +1,7 @@
 package cz.encircled.eprofiler.ui.fx;
 
+import java.io.File;
+
 import cz.encircled.eprofiler.ui.fx.parser.ChronicleLogParser;
 import cz.encircled.eprofiler.ui.fx.parser.LogEntryService;
 import cz.encircled.eprofiler.ui.fx.parser.LogEntryServiceImpl;
@@ -23,8 +25,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 /**
  * @author Kisel on 26.05.2016.
@@ -70,7 +70,7 @@ public class FxApplication extends Application {
         primaryStage.setMaximized(true);
 
         // TODO
-        filePath.set("D:/temp");
+        filePath.set("C:/templogs");
     }
 
     public boolean isActiveTab(ProfilerTab tab) {

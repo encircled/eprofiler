@@ -10,6 +10,8 @@ public class LogEntry {
 
     public long id;
 
+    public long methodId;
+
     public String methodName;
 
     public String returnType;

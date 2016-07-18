@@ -1,5 +1,15 @@
 package cz.encircled.eprofiler.ui.fx.tab;
 
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import cz.encircled.eprofiler.ui.fx.FxApplication;
 import cz.encircled.eprofiler.ui.fx.LogEntry;
 import cz.encircled.eprofiler.ui.fx.model.AggregationType;
@@ -10,13 +20,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.util.StringConverter;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * @author Vlad on 17-Jul-16.
@@ -61,8 +65,8 @@ public class MethodDetailTab extends AbstractProfilerTab {
         if (entry != null) {
             methodInfoPane.getChildren().setAll(new Label("Method " + entry.methodName));
 
-            root.setCenter(getLineChart(fxApplication.logEntryService.getAllCallsOfMethod(fxApplication.filePath.get(), entry.id), ChartAxisType.START_TIME, AggregationType.AVG, true));
-            root.setBottom(getLineChart(fxApplication.logEntryService.getAllCallsOfMethod(fxApplication.filePath.get(), entry.id), ChartAxisType.THREAD_COUNT, AggregationType.AVG, true));
+            root.setCenter(getLineChart(fxApplication.logEntryService.getAllCallsOfMethod(fxApplication.filePath.get(), entry.methodId), ChartAxisType.START_TIME, AggregationType.AVG, true));
+            root.setBottom(getLineChart(fxApplication.logEntryService.getAllCallsOfMethod(fxApplication.filePath.get(), entry.methodId), ChartAxisType.THREAD_COUNT, AggregationType.AVG, true));
             root.setVisible(true);
         } else {
             root.setVisible(false);
@@ -104,11 +108,14 @@ public class MethodDetailTab extends AbstractProfilerTab {
             case AVG:
                 Map<Long, Double> avgAggregated = entries.stream().collect(Collectors.groupingBy(keyFun, Collectors.averagingLong(LogEntry::getTotalTime)));
 
-                xAxis.setAutoRanging(false);
-                xAxis.setLowerBound(avgAggregated.keySet().iterator().next());
-                xAxis.setUpperBound(avgAggregated.keySet().iterator().next() + 10000L);
-                xAxis.setTickUnit(1000);
-                xAxis.setTickLabelFormatter(new StringConverter<Number>() {
+                Pair<Long, Long> minAndMax = findMinAndMax(entries);
+
+//                xAxis.setAutoRanging(false);
+//                xAxis.setLowerBound(minAndMax.getLeft() - 10L);
+//                xAxis.setUpperBound(minAndMax.getRight() + 10L);
+//                xAxis.setTickUnit(20);
+//                xAxis.setTickUnit((minAndMax.getRight() - minAndMax.getLeft()) / 20);
+                /*xAxis.setTickLabelFormatter(new StringConverter<Number>() {
                     @Override
                     public String toString(Number object) {
                         return timeFormat.get().format(new Date(object.longValue()));
@@ -118,8 +125,7 @@ public class MethodDetailTab extends AbstractProfilerTab {
                     public Number fromString(String string) {
                         return null;
                     }
-                });
-
+                });*/
                 timeSeries.getData().setAll(avgAggregated.entrySet().stream()
                         .map(doubleEntry -> {
                             return reverseAxises ?
@@ -137,10 +143,25 @@ public class MethodDetailTab extends AbstractProfilerTab {
 
         lineChart.getData().add(timeSeries);
 
-
         return lineChart;
     }
 
+    private Pair<Long, Long> findMinAndMax(Collection<LogEntry> entries) {
+        Long min = Long.MAX_VALUE;
+        Long max = 0L;
+
+        for (LogEntry entry : entries) {
+            long totalTime = entry.getTotalTime();
+            if(totalTime > max) {
+                max = totalTime;
+            }
+            if(totalTime < min) {
+                min = totalTime;
+            }
+        }
+
+        return Pair.of(min, max);
+    }
 
     long getStartDate(LogEntry logEntry) {
         return logEntry.start;
