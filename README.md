@@ -22,7 +22,7 @@ If method takes less, it's time is added to it's parent time.
 
 Create the file `PATH_TO_APACHE/bin/setenv.bat` (or `setenv.sh` for Linux) if missing and add 
 
-`CATALINA_OPTS="$CATALINA_OPTS -javaagent:path/to/eprofiler.jar=args"`
+`set CATALINA_OPTS="-javaagent:path/to/eprofiler.jar=args"`
 
 ### In JUnit
 
