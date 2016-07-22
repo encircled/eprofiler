@@ -1,11 +1,5 @@
 package cz.encircled.eprofiler.asm;
 
-import cz.encircled.eprofiler.core.ProfilerCore;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.util.TraceClassVisitor;
-
 import java.io.PrintWriter;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -14,6 +8,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import cz.encircled.eprofiler.core.ProfilerCore;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.util.TraceClassVisitor;
 
 /**
  * @author Vlad on 23-May-16.
@@ -30,6 +30,7 @@ public class AsmClassTransformer implements ClassFileTransformer {
         ProfilerCore.output().debug("ASM transformer created");
     }
 
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer)
             throws IllegalClassFormatException {
         String dottedClassName = className.replaceAll("/", "\\.");

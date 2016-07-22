@@ -51,8 +51,12 @@ public class ChronicleLogParser implements LogParser {
                 roots.add(entry);
             } else {
                 LogEntry parentEntry = index.get(Long.parseLong(split[1]));
-                parentEntry.children.add(entry);
-                entry.parent = parentEntry;
+                if(parentEntry != null) {
+                    parentEntry.children.add(entry);
+                    entry.parent = parentEntry;
+                } else {
+                    System.out.println("Warn, parent is null, method name " + entry.methodName);
+                }
             }
             index.put(entry.id, entry);
         }

@@ -34,6 +34,13 @@ public class AgentTest extends AbstractProfilerTest {
 
     @Before
     public void before() {
+        try {
+            System.out.println(Class.forName("pkg.Comparable"));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        states.clear();
+        throw new RuntimeException();
         /*try {
             String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
             int p = nameOfRunningVM.indexOf('@');
@@ -50,7 +57,6 @@ public class AgentTest extends AbstractProfilerTest {
             e.printStackTrace();
             throw new RuntimeException();
         }*/
-        states.clear();
     }
 
     // Nested method call in a loop
