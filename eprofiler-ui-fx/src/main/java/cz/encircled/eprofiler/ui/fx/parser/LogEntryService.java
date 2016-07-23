@@ -15,4 +15,5 @@ public interface LogEntryService {
 
     List<LogEntry> getAllCallsOfMethod(String path, long methodId);
 
+    List<LogEntry> collectAllChildren(String path);
 }

@@ -32,6 +32,8 @@ public class LogEntry {
 
     public long totalTime;
 
+    public long selfTotalTime;
+
     public long repeats;
 
     public LogEntry parent;
@@ -59,6 +61,10 @@ public class LogEntry {
     @Override
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
+    }
+
+    public long getSelfTotalTime() {
+        return selfTotalTime;
     }
 
     public long getTotalTime() {

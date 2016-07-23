@@ -11,6 +11,7 @@ import cz.encircled.eprofiler.ui.fx.components.NumberTextField;
 import javafx.application.Platform;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,8 +39,8 @@ public class PackageTab extends AbstractProfilerTab {
         TableColumn<Map.Entry<String, Long>, String> column1 = new TableColumn<>("Package");
         column1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
 
-        TableColumn<Map.Entry<String, Long>, String> column2 = new TableColumn<>("Value");
-        column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().toString()));
+        TableColumn<Map.Entry<String, Long>, Long> column2 = new TableColumn<>("Value");
+        column2.setCellValueFactory(p -> new SimpleObjectProperty<>(p.getValue().getValue()));
 
         table.getColumns().addAll(column1, column2);
         pane.setCenter(table);
@@ -59,7 +60,7 @@ public class PackageTab extends AbstractProfilerTab {
         int intValue = packageDepth.getValue().intValue();
 
         new Thread(() -> {
-            List<LogEntry> all = fxApplication.logEntryService.getAllEntries(fxApplication.filePath.get());
+            List<LogEntry> all = fxApplication.logEntryService.collectAllChildren(fxApplication.filePath.get());
             Function<LogEntry, String> transform = o -> {
                 String[] split = o.packageName.split("\\.");
                 if (split.length >= intValue) {
@@ -71,7 +72,7 @@ public class PackageTab extends AbstractProfilerTab {
                 }
             };
 
-            final Map<String, Long> result = all.stream().collect(Collectors.groupingBy(transform, Collectors.summingLong(LogEntry::getTotalTime)));
+            final Map<String, Long> result = all.parallelStream().collect(Collectors.groupingBy(transform, Collectors.summingLong(LogEntry::getSelfTotalTime)));
             ObservableList<Map.Entry<String, Long>> entries = FXCollections
                     .observableArrayList(result.entrySet().stream().sorted((o1, o2) -> Long.compare(o2.getValue(), o1.getValue())).collect(
                             Collectors.toList()));

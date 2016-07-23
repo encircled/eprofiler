@@ -51,7 +51,7 @@ public class ChronicleLogParser implements LogParser {
                 roots.add(entry);
             } else {
                 LogEntry parentEntry = index.get(Long.parseLong(split[1]));
-                if(parentEntry != null) {
+                if (parentEntry != null) {
                     parentEntry.children.add(entry);
                     entry.parent = parentEntry;
                 } else {
@@ -60,7 +60,21 @@ public class ChronicleLogParser implements LogParser {
             }
             index.put(entry.id, entry);
         }
+
+        roots.forEach(this::setSelfTime);
+
         return roots;
+    }
+
+    private void setSelfTime(LogEntry entry) {
+        long childrenTotal = 0L;
+        if (!entry.children.isEmpty()) {
+            for (LogEntry child : entry.children) {
+                childrenTotal += child.totalTime;
+                setSelfTime(child);
+            }
+        }
+        entry.selfTotalTime = entry.totalTime - childrenTotal;
     }
 
     private ExcerptTailer getExcerptTailer(String path) {

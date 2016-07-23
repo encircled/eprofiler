@@ -41,7 +41,8 @@ public class ChronicleWriter implements OutputWriter {
         log(root);
     }
 
-    private void log(MethodState state) {
+    // TODO async
+    private synchronized void log(MethodState state) {
         state.children.forEach(this::log);
 
         Long totalTime = state.totalTime();

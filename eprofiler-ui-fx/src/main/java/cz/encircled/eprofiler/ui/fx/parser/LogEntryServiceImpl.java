@@ -37,10 +37,11 @@ public class LogEntryServiceImpl implements LogEntryService {
 
     @Override
     public void evictEntryCache() {
-
+        logEntries = null;
     }
 
-    private List<LogEntry> collectAllChildren(String path) {
+    @Override
+    public List<LogEntry> collectAllChildren(String path) {
         ArrayList<LogEntry> target = new ArrayList<>(256);
         for (LogEntry logEntry : getAllEntries(path)) {
             collectAllChildrenInner(logEntry, target);
