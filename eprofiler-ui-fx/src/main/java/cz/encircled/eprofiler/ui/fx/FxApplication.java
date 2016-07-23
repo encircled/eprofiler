@@ -5,10 +5,7 @@ import java.io.File;
 import cz.encircled.eprofiler.ui.fx.parser.ChronicleLogParser;
 import cz.encircled.eprofiler.ui.fx.parser.LogEntryService;
 import cz.encircled.eprofiler.ui.fx.parser.LogEntryServiceImpl;
-import cz.encircled.eprofiler.ui.fx.tab.AbstractProfilerTab;
-import cz.encircled.eprofiler.ui.fx.tab.CallTreeTab;
-import cz.encircled.eprofiler.ui.fx.tab.MethodDetailTab;
-import cz.encircled.eprofiler.ui.fx.tab.ProfilerTab;
+import cz.encircled.eprofiler.ui.fx.tab.*;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -60,6 +57,7 @@ public class FxApplication extends Application {
         root.setCenter(tabs);
         tabs.getTabs().add(new CallTreeTab(this));
         tabs.getTabs().add(new MethodDetailTab(this));
+        tabs.getTabs().add(new PackageTab(this));
 
         tabs.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             ((AbstractProfilerTab) newValue).repaint();

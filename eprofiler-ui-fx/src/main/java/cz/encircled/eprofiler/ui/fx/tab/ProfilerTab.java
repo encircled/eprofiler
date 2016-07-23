@@ -7,7 +7,8 @@ public enum ProfilerTab {
 
     CALL_TREE(0),
     METHOD_DETAIL(1),
-    HOT_METHODS(2);
+    HOT_METHODS(2),
+    PACKAGE(3);
 
     public int index;
 
