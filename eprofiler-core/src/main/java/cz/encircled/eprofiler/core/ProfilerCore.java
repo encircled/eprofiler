@@ -1,5 +1,6 @@
 package cz.encircled.eprofiler.core;
 
+import cz.encircled.eprofiler.Profiler;
 import cz.encircled.eprofiler.Timer;
 import cz.encircled.eprofiler.output.ChronicleWriter;
 import cz.encircled.eprofiler.output.OutputWriter;
@@ -16,6 +17,9 @@ public class ProfilerCore {
     public ProfilerCore(String args) {
         configuration = new ProfileConfiguration(args);
         outputWriter = new ChronicleWriter();
+        if (!configuration.isAddSpringListener()) {
+            Profiler.startProfiling();
+        }
 
         for (String classNamePattern : config().getClassNamePatterns()) {
             ProfilerCore.output().debug("class pattern " + classNamePattern);

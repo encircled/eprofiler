@@ -20,6 +20,8 @@ public class ProfileConfiguration {
 
     private String outputFolder;
 
+    private boolean isAddSpringListener = false;
+
     public ProfileConfiguration(String args) {
         init(args);
         validate();
@@ -64,6 +66,10 @@ public class ProfileConfiguration {
             case "outputFolder":
                 outputFolder = value;
                 break;
+            case "waitSpringStart":
+                isAddSpringListener = true;
+                break; // TODO add readme
+
         }
     }
 
@@ -85,6 +91,10 @@ public class ProfileConfiguration {
 
     public String getOutputFolder() {
         return outputFolder;
+    }
+
+    public boolean isAddSpringListener() {
+        return isAddSpringListener;
     }
 
     private void validate() {

@@ -36,7 +36,6 @@ public class ProfilerMethodAdapter extends AdviceAdapter {
                 Type.getMethodDescriptor(Util.getMethod(Profiler.class, "methodStart")), false);
         index = newLocal(Type.getType(MethodState.class));
         mv.visitVarInsn(Opcodes.ASTORE, index);
-
     }
 
     @Override

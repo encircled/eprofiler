@@ -7,11 +7,11 @@ import org.objectweb.asm.MethodVisitor;
 /**
  * @author Vlad on 23-May-16.
  */
-public class ClassAdapter extends ClassVisitor {
+public class ProfilerClassAdapter extends ClassVisitor {
 
     private final String owner;
 
-    public ClassAdapter(ClassVisitor cv, final String owner) {
+    public ProfilerClassAdapter(ClassVisitor cv, final String owner) {
         super(Util.version, cv);
         this.owner = owner;
     }

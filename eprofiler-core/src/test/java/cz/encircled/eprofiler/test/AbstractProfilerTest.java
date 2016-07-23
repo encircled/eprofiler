@@ -1,11 +1,13 @@
 package cz.encircled.eprofiler.test;
 
+import com.sun.tools.attach.VirtualMachine;
 import cz.encircled.eprofiler.MethodState;
 import cz.encircled.eprofiler.core.ProfilerCore;
 import cz.encircled.eprofiler.output.ChronicleWriter;
 import org.junit.Assert;
 import org.junit.Before;
 
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,21 @@ import java.util.TreeSet;
 public abstract class AbstractProfilerTest {
 
     protected static List<MethodState> states = new ArrayList<>();
+
+    static {
+        String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
+        int p = nameOfRunningVM.indexOf('@');
+        String pid = nameOfRunningVM.substring(0, p);
+
+        try {
+            VirtualMachine vm = VirtualMachine.attach(pid);
+            vm.loadAgent("..\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
+                    "classPattern=cz.encircled.eprofiler.test.classes.*;minDurationToLog=0;outputFolder=C:/temptest;waitSpringStart;");
+            vm.detach();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Before
     public void beforeClass() {

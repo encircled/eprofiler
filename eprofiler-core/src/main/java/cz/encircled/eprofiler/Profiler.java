@@ -12,8 +12,17 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Profiler {
 
-//    private static ArrayBlockingQueue<MethodState> states = new ArrayBlockingQueue<>(16);
+    private static final MethodState mockMethod = new MethodState() {
+        @Override
+        public void end() {
 
+        }
+
+        @Override
+        public void addParam(String value) {
+
+        }
+    };
     static ThreadLocal<MethodState> state = new ThreadLocal<MethodState>() {
         @Override
         protected MethodState initialValue() {
@@ -22,7 +31,16 @@ public class Profiler {
     };
     private static AtomicLong idCounter = new AtomicLong(1L);
 
+    private static volatile boolean isStarted = false;
+
+    public static void startProfiling() {
+        isStarted = true;
+    }
+
     public static MethodState methodStart(long id) {
+        if (!isStarted) {
+            return mockMethod;
+        }
         long cpuAtStart = ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();
 
         MethodDescriptor descriptor = MethodRegistry.get(id);

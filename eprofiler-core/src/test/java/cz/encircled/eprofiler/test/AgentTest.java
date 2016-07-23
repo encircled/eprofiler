@@ -1,9 +1,5 @@
 package cz.encircled.eprofiler.test;
 
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.CountDownLatch;
-
-import com.sun.tools.attach.VirtualMachine;
 import cz.encircled.eprofiler.MethodState;
 import cz.encircled.eprofiler.test.classes.RecursiveLoopWithNestedCall;
 import cz.encircled.eprofiler.test.classes.RecursiveSimpleLoop;
@@ -12,35 +8,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * @author Kisel on 24.05.2016.
  */
 public class AgentTest extends AbstractProfilerTest {
 
-    static {
-        String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
-        int p = nameOfRunningVM.indexOf('@');
-        String pid = nameOfRunningVM.substring(0, p);
-
-        try {
-            VirtualMachine vm = VirtualMachine.attach(pid);
-            vm.loadAgent("..\\eprofiler-core\\target\\eprofiler-core-1.0-SNAPSHOT.jar",
-                    "classPattern=cz.encircled.eprofiler.test.classes.*;minDurationToLog=0;outputFolder=C:/temptest");
-            vm.detach();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Before
     public void before() {
-        try {
-            System.out.println(Class.forName("pkg.Comparable"));
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
         states.clear();
-        throw new RuntimeException();
         /*try {
             String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
             int p = nameOfRunningVM.indexOf('@');
